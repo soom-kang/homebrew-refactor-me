@@ -2,6 +2,8 @@
 
 # refactor-me Homebrew tap
 
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.2-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+
 Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
 
 원하는 Git 저장소를 선택해 리팩토링하고, 검증을 통과한 변경을 로컬 branch에서 검토합니다.
@@ -12,7 +14,7 @@ Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-Release assets for [`0.10.0-beta.2`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2) are published. Public Homebrew installation verification is pending. The release commit is `c30dbdadc4229958e29366fdc14d79df3da8cb02`; installation results will be added after the check completes.
+The current public Beta is [`0.10.0-beta.2`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2), commit `c30dbdadc4229958e29366fdc14d79df3da8cb02`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/36956289983). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -34,7 +36,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports version `0.10.0-beta.2` and commit `c30dbdadc4229958e29366fdc14d79df3da8cb02` before continuing. Upgrade an older installation with `brew upgrade refactor-me`. The model and effort options below are Beta.2 features.
+Confirm `refactor-me version --json` reports `0.10.0-beta.2` and commit `c30dbdadc4229958e29366fdc14d79df3da8cb02`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 

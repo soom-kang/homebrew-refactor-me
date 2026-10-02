@@ -2,6 +2,8 @@
 
 # refactor-me Homebrew tap
 
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.2-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
+
 macOS Apple Silicon에 refactor-me를 설치합니다. Codex 또는 Claude Code가 선택한 Git 저장소의 코드를 격리된 worktree에서 리팩토링하고, 검증을 통과한 커밋을 검토용 로컬 branch에 저장합니다.
 
 [English](../README.md) · [사용법](https://github.com/soom-kang/refactor-me/blob/main/tool/TUTORIAL.ko.md) · [소스](https://github.com/soom-kang/refactor-me)
@@ -10,7 +12,7 @@ macOS Apple Silicon에 refactor-me를 설치합니다. Codex 또는 Claude Code�
 
 Homebrew, Git, 인증을 마친 Codex 또는 Claude Code CLI와 대상 프로젝트의 빌드 및 테스트 도구를 준비하세요.
 
-[`0.10.0-beta.2`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2) 릴리스 파일을 공개했습니다. 공개 Homebrew 설치 검증은 아직 대기 중입니다. 릴리스 commit은 `c30dbdadc4229958e29366fdc14d79df3da8cb02`이며 검사가 끝난 뒤 설치 결과를 추가합니다.
+현재 공개 Beta는 [`0.10.0-beta.2`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2)이며 commit은 `c30dbdadc4229958e29366fdc14d79df3da8cb02`입니다. [공개 설치 검증](https://github.com/soom-kang/refactor-me/actions/runs/36956289983)을 확인할 수 있습니다. CLI Verify 배지는 CLI 저장소 `main`의 workflow 상태를 표시하며 tap CI나 실제 provider 실행을 입증하지 않습니다.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -32,7 +34,7 @@ npx skills add soom-kang/sharpen-me \
 
 ## 2. 대상 확인
 
-`refactor-me version --json`에 버전 `0.10.0-beta.2`와 commit `c30dbdadc4229958e29366fdc14d79df3da8cb02`가 표시되는지 확인한 뒤 계속하세요. 이전 버전이라면 `brew upgrade refactor-me`로 업데이트합니다. 아래 모델과 추론 수준 옵션은 Beta.2 기능입니다.
+`refactor-me version --json`에서 버전이 `0.10.0-beta.2`이고 commit이 `c30dbdadc4229958e29366fdc14d79df3da8cb02`인지 확인하세요. 이전 버전이라면 아래 명령을 사용하기 전에 `brew upgrade refactor-me`로 업데이트합니다.
 
 경로를 커밋이 하나 이상 있는 깨끗한 Git 저장소로 바꾸세요. 예시는 Codex만 사용합니다. Claude Code의 로컬 준비 상태를 검사하려면 `--provider claude --fallback none`으로 바꿉니다.
 
