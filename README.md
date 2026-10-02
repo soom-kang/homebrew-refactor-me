@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.2-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.3-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.3) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
 
@@ -14,7 +14,7 @@ Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.2`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.2), commit `c30dbdadc4229958e29366fdc14d79df3da8cb02`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/36956289983). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+The current public Beta is [`0.10.0-beta.3`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.3), commit `01a3fad54149cb127e8bd6c5d638eda0562a5897`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/36971167653). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -36,7 +36,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.2` and commit `c30dbdadc4229958e29366fdc14d79df3da8cb02`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.3` and commit `01a3fad54149cb127e8bd6c5d638eda0562a5897`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -64,6 +64,12 @@ Choose a model for every selected provider in the command or project configurati
 An explicit `--effort` applies to every phase for the primary provider in this command; `--fallback-effort` does the same for the fallback. Omitting these options keeps the configured and phase effort policy. Live doctor needs the same model selection as `run`; offline `doctor --no-live-probe` needs no model and does not prove live provider access or Skill loading. See [model and effort selection](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#model-and-effort-selection).
 
 Exit `0` can mean partial completion. Inspect the report, diff and local result branch before merging. The CLI does not merge, push or deploy results.
+
+## Progress logs
+
+Public Beta `0.10.0-beta.3` shows the current stage, candidate and confirmed result instead of shell commands. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+
+Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Each audit reports proposed and eligible candidates, with the inspected count when capped. Long stages report elapsed time every 30 seconds. Provider transcripts and validation output remain in local run records. See the [progress reference](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#progress-logs) for result and failure messages.
 
 ## Update or remove
 
