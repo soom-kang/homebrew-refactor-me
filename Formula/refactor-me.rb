@@ -1,8 +1,8 @@
 class RefactorMe < Formula
   desc "Automated refactoring with isolated Git worktrees and global sharpen-me skills"
   homepage "https://github.com/soom-kang/refactor-me"
-  url "https://github.com/soom-kang/refactor-me/releases/download/v0.10.0-beta.1/refactor-me_0.10.0-beta.1_source.tar.gz"
-  sha256 "9a2867a0d4ae652df27e05c952964e4dc0db155df53a813f8a6c2000a0ca80a7"
+  url "https://github.com/soom-kang/refactor-me/releases/download/v0.10.0-beta.2/refactor-me_0.10.0-beta.2_source.tar.gz"
+  sha256 "38907099a89f6715481d863014de19502d3a45f7a8895c328cd938834bafd95b"
   license "MIT"
 
   depends_on "go" => :build
@@ -12,7 +12,7 @@ class RefactorMe < Formula
   def install
     cd "tool/go" do
       system "go", "build", "-trimpath", "-buildvcs=false",
-             "-ldflags=-s -w -X main.version=#{version} -X main.commit=cf31fdf797a68d6bf5cab8a0f22eff9b55766071",
+             "-ldflags=-s -w -X main.version=#{version} -X main.commit=c30dbdadc4229958e29366fdc14d79df3da8cb02",
              "-o", bin/"refactor-me", "./cmd/refactor-me"
     end
   end
@@ -30,15 +30,22 @@ class RefactorMe < Formula
     require "json"
     info = JSON.parse(shell_output("#{bin}/refactor-me version --json"))
     assert_equal version.to_s, info.fetch("version")
-    assert_equal "cf31fdf797a68d6bf5cab8a0f22eff9b55766071", info.fetch("commit")
+    assert_equal "c30dbdadc4229958e29366fdc14d79df3da8cb02", info.fetch("commit")
     assert_match "refactor-me", shell_output((bin/"refactor-me").to_s)
     repo = testpath/"target repo"
     system "git", "init", "-q", repo
     system bin/"refactor-me", "init", "--repo", repo
-    config = JSON.parse((repo/".refactor/config.json").read)
+    config_path = repo/".refactor/config.json"
+    config = JSON.parse(config_path.read)
     assert_equal 2, config.fetch("schema_version")
+    assert_empty config.fetch("agents").fetch("codex").fetch("model")
+    assert_empty config.fetch("agents").fetch("claude").fetch("model")
     assert_path_exists repo/".refactor/runs"
     refute_path_exists repo/".refactor/bin"
+    config.fetch("policy")["max_cycles"] = 1
+    config_path.open("w") { |file| file.write JSON.pretty_generate(config) + "\n" }
+    config_before = config_path.read
     system bin/"refactor-me", "init", "--repo", repo
+    assert_equal config_before, config_path.read
   end
 end
