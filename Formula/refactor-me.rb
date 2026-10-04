@@ -1,8 +1,8 @@
 class RefactorMe < Formula
   desc "Automated refactoring with isolated Git worktrees and global sharpen-me skills"
   homepage "https://github.com/soom-kang/refactor-me"
-  url "https://github.com/soom-kang/refactor-me/releases/download/v0.10.0-beta.3/refactor-me_0.10.0-beta.3_source.tar.gz"
-  sha256 "7a035059a94cec365e429ea5253ae3b63d6e3366580d8c0e1016d7ffacc3d740"
+  url "https://github.com/soom-kang/refactor-me/releases/download/v0.10.0-beta.4/refactor-me_0.10.0-beta.4_source.tar.gz"
+  sha256 "ee6aba80025421f94fdb14241d584f21c2ba8262529352bb3c72fda523cb274f"
   license "MIT"
 
   depends_on "go" => :build
@@ -12,7 +12,7 @@ class RefactorMe < Formula
   def install
     cd "tool/go" do
       system "go", "build", "-trimpath", "-buildvcs=false",
-             "-ldflags=-s -w -X main.version=#{version} -X main.commit=01a3fad54149cb127e8bd6c5d638eda0562a5897",
+             "-ldflags=-s -w -X main.version=#{version} -X main.commit=0032e594eaab3240d4dee1aa133be5b9d6eb3c42",
              "-o", bin/"refactor-me", "./cmd/refactor-me"
     end
   end
@@ -30,7 +30,7 @@ class RefactorMe < Formula
     require "json"
     info = JSON.parse(shell_output("#{bin}/refactor-me version --json"))
     assert_equal version.to_s, info.fetch("version")
-    assert_equal "01a3fad54149cb127e8bd6c5d638eda0562a5897", info.fetch("commit")
+    assert_equal "0032e594eaab3240d4dee1aa133be5b9d6eb3c42", info.fetch("commit")
     assert_match "refactor-me", shell_output((bin/"refactor-me").to_s)
     repo = testpath/"target repo"
     system "git", "init", "-q", repo
