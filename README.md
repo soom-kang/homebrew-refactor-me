@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.3-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.3) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.4-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
 
@@ -14,7 +14,7 @@ Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.3`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.3), commit `01a3fad54149cb127e8bd6c5d638eda0562a5897`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/36971167653). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+The current public Beta is [`0.10.0-beta.4`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4), commit `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/37208178549). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -36,7 +36,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.3` and commit `01a3fad54149cb127e8bd6c5d638eda0562a5897`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.4` and commit `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -67,7 +67,7 @@ Exit `0` can mean partial completion. Inspect the report, diff and local result 
 
 ## Progress logs
 
-Public Beta `0.10.0-beta.3` shows the current stage, candidate and confirmed result instead of shell commands. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+Public Beta `0.10.0-beta.4` shows the current stage, candidate and confirmed result instead of shell commands. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
 
 Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Each audit reports proposed and eligible candidates, with the inspected count when capped. Long stages report elapsed time every 30 seconds. Provider transcripts and validation output remain in local run records. See the [progress reference](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#progress-logs) for result and failure messages.
 
