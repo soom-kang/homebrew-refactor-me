@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.4-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.5-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
 
@@ -14,7 +14,7 @@ Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.4`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4), commit `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`. See the [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/37208178549). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+The current public Beta is [`0.10.0-beta.5`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5), commit `8bfebe90b04e54cf1ef843915aad2901be0db41d`. See the passing [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/37573464996) and [CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/37573194052). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -36,7 +36,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.4` and commit `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.5` and commit `8bfebe90b04e54cf1ef843915aad2901be0db41d`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -55,9 +55,11 @@ refactor-me doctor --repo /path/to/target-repo \
 ```sh
 refactor-me run --repo /path/to/target-repo \
   --provider codex --fallback none \
-  --model gpt-6.1-sol --effort xhigh
+  --model gpt-6.1-sol --effort xhigh --max-minutes 60
 refactor-me report --repo /path/to/target-repo
 ```
+
+`--max-minutes 60` sets a 60-minute soft limit for this run without changing project settings. The limit is checked at audit and candidate boundaries; a work unit already underway can finish later. Without the option, macOS asks you to choose a duration when stdin and stderr are terminals. Enter keeps the configured limit, which defaults to 180 minutes. Redirected and `--json` runs use configuration without prompting. The report records the selected limit and actual duration. See [run time selection](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#run-time-selection).
 
 Choose a model for every selected provider in the command or project configuration. Generated model fields are empty; there is no fixed model default. CLI values take precedence and do not change configuration files. These model and effort values are example choices, not defaults or verified account access. For Claude Code alone, use `--provider claude --fallback none --model claude-sonnet-5-5 --effort xhigh`. Fallback requires its own model choice.
 
@@ -65,11 +67,19 @@ An explicit `--effort` applies to every phase for the primary provider in this c
 
 Exit `0` can mean partial completion. Inspect the report, diff and local result branch before merging. The CLI does not merge, push or deploy results.
 
+## Review changes and costs
+
+Open `.refactor/runs/<id>/changes.md` in a Markdown editor to review the file checklist, additions/deletions and full text diff. Checkboxes record review progress; they do not include or exclude changes from the result branch. `changes.patch` stays unchanged, and binary changes show metadata. See [code comparison](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#code-comparison).
+
+Reports separate provider-reported USD and estimated USD. When a supported model does not report a price, bundled [Artificial Analysis](https://artificialanalysis.ai/) rates estimate standard API cost and record the sources, checked date and assumptions. Supported IDs are Codex `gpt-5.6-sol`, Codex `gpt-6.1-sol` and Claude `claude-sonnet-5-5`. Unknown models or missing/invalid usage remain unpriced. This estimate does not calculate subscription or credit charges. Read [usage and exit codes](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#usage-and-exit-codes) before treating a partial amount as a bill.
+
 ## Progress logs
 
-Public Beta `0.10.0-beta.4` shows the current stage, candidate and confirmed result instead of shell commands. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+Public Beta `0.10.0-beta.5` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
 
-Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Each audit reports proposed and eligible candidates, with the inspected count when capped. Long stages report elapsed time every 30 seconds. Provider transcripts and validation output remain in local run records. See the [progress reference](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#progress-logs) for result and failure messages.
+Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Structured provider events identify reads, searches, edits and other tool activity, with safe worktree-relative paths when available. Command activity stays generic; logs omit sensitive or outside-worktree paths, search patterns, command arguments, output and provider prose. Provider completion reports measured duration, tool-event count and exit status.
+
+Each audit reports proposed and eligible candidates, with the inspected count when capped. Long stages report elapsed time every 30 seconds. Provider transcripts and validation output remain in local run records. See the [progress reference](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#progress-logs) for result and failure messages.
 
 ## Update or remove
 

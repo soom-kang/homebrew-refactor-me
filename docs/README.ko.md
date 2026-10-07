@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.4-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.5-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
 
 macOS Apple Silicon에 refactor-me를 설치합니다. Codex 또는 Claude Code가 선택한 Git 저장소의 코드를 격리된 worktree에서 리팩토링하고, 검증을 통과한 커밋을 검토용 로컬 branch에 저장합니다.
 
@@ -12,7 +12,7 @@ macOS Apple Silicon에 refactor-me를 설치합니다. Codex 또는 Claude Code�
 
 Homebrew, Git, 인증을 마친 Codex 또는 Claude Code CLI와 대상 프로젝트의 빌드 및 테스트 도구를 준비하세요.
 
-현재 공개 Beta는 [`0.10.0-beta.4`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.4)이며 commit은 `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`입니다. [공개 설치 검증](https://github.com/soom-kang/refactor-me/actions/runs/37208178549)을 확인할 수 있습니다. CLI Verify 배지는 CLI 저장소 `main`의 workflow 상태를 표시하며 tap CI나 실제 provider 실행을 입증하지 않습니다.
+현재 공개 Beta는 [`0.10.0-beta.5`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5)이며 commit은 `8bfebe90b04e54cf1ef843915aad2901be0db41d`입니다. [공개 설치 검증](https://github.com/soom-kang/refactor-me/actions/runs/37573464996)과 [CLI 소스 검증](https://github.com/soom-kang/refactor-me/actions/runs/37573194052)이 통과했습니다. CLI Verify 배지는 CLI 저장소 `main`의 workflow 상태를 표시하며 tap CI나 실제 provider 실행을 입증하지 않습니다.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -34,7 +34,7 @@ npx skills add soom-kang/sharpen-me \
 
 ## 2. 대상 확인
 
-`refactor-me version --json`에서 버전이 `0.10.0-beta.4`이고 commit이 `0032e594eaab3240d4dee1aa133be5b9d6eb3c42`인지 확인하세요. 이전 버전이라면 아래 명령을 사용하기 전에 `brew upgrade refactor-me`로 업데이트합니다.
+`refactor-me version --json`에서 버전이 `0.10.0-beta.5`이고 commit이 `8bfebe90b04e54cf1ef843915aad2901be0db41d`인지 확인하세요. 이전 버전이라면 아래 명령을 사용하기 전에 `brew upgrade refactor-me`로 업데이트합니다.
 
 경로를 커밋이 하나 이상 있는 깨끗한 Git 저장소로 바꾸세요. 예시는 Codex만 사용합니다. Claude Code의 로컬 준비 상태를 검사하려면 `--provider claude --fallback none`으로 바꿉니다.
 
@@ -53,9 +53,11 @@ refactor-me doctor --repo /path/to/target-repo \
 ```sh
 refactor-me run --repo /path/to/target-repo \
   --provider codex --fallback none \
-  --model gpt-6.1-sol --effort xhigh
+  --model gpt-6.1-sol --effort xhigh --max-minutes 60
 refactor-me report --repo /path/to/target-repo --lang ko
 ```
+
+`--max-minutes 60`은 설정 파일을 바꾸지 않고 이번 실행의 시간 한도를 60분으로 정합니다. 한도는 audit과 candidate 시작 경계에서 확인하며 진행 중인 작업 단위는 한도를 넘겨 마칠 수 있습니다. 옵션을 생략하면 stdin과 stderr가 모두 터미널인 macOS에서 실행 시간을 선택합니다. Enter는 설정값을 유지하며 기본값은 180분입니다. 리다이렉션이나 `--json` 실행은 질문 없이 설정값을 사용합니다. 선택한 한도와 실제 경과 시간은 보고서에서 확인하세요. [실행 시간 선택](https://github.com/soom-kang/refactor-me/blob/main/tool/README.ko.md#run-time-selection)에 자세히 설명되어 있습니다.
 
 선택한 provider마다 명령이나 프로젝트 설정으로 모델을 지정하세요. 생성되는 모델 필드는 비어 있으며 고정 기본 모델은 없습니다. CLI 값이 우선하며 설정 파일은 바꾸지 않습니다. 예시의 모델과 추론 수준은 선택값이며 기본값이나 검증한 계정 권한이 아닙니다. Claude Code만 사용하려면 `--provider claude --fallback none --model claude-sonnet-5-5 --effort xhigh`를 지정합니다. fallback을 선택하면 해당 모델도 필요합니다.
 
@@ -63,11 +65,19 @@ refactor-me report --repo /path/to/target-repo --lang ko
 
 종료 코드 `0`에도 부분 완료가 포함됩니다. 보고서, diff, 로컬 결과 branch를 검토한 뒤 직접 병합하세요. CLI는 자동 병합, push, 배포를 하지 않습니다.
 
+## 변경과 비용 검토
+
+Markdown 편집기에서 `.refactor/runs/<id>/changes.md`를 열어 파일 체크리스트, 추가·삭제 내역과 전체 텍스트 diff를 확인하세요. 체크는 검토 진행 표시이며 결과 branch에 반영할 변경을 선택하거나 제외하지 않습니다. `changes.patch`는 그대로 보존하고 바이너리 변경은 메타데이터로 표시합니다. [코드 비교](https://github.com/soom-kang/refactor-me/blob/main/tool/README.ko.md#code-comparison)를 참고하세요.
+
+보고서는 provider가 보고한 USD와 추정한 USD를 따로 표시합니다. 지원하는 모델에서 비용을 보고하지 않으면 내장 [Artificial Analysis](https://artificialanalysis.ai/) 단가로 표준 API 비용을 추정하고 출처, 확인 날짜와 가정을 기록합니다. 지원하는 ID는 Codex `gpt-5.6-sol`, Codex `gpt-6.1-sol`, Claude `claude-sonnet-5-5`입니다. 알 수 없는 모델이나 누락되거나 잘못된 사용량은 미산정으로 남깁니다. 추정액은 구독이나 credit 청구액이 아닙니다. 일부 금액만 집계된 경우 [사용량과 종료 코드](https://github.com/soom-kang/refactor-me/blob/main/tool/README.ko.md#usage-and-exit-codes)를 확인하세요.
+
 ## 진행 로그
 
-공개 Beta `0.10.0-beta.4`는 shell 명령 대신 현재 단계, 작업 항목과 확인된 결과를 표시합니다. 기존 `--lang en|ko`를 진행 로그에도 적용하며 기본값은 영어입니다. 한국어 안내에는 `--lang ko`를 추가하세요.
+공개 Beta `0.10.0-beta.5`는 경과 시간, 현재 단계, provider, 작업 항목과 확인된 결과를 표시합니다. 기존 `--lang en|ko`를 진행 로그에도 적용하며 기본값은 영어입니다. 한국어 안내에는 `--lang ko`를 추가하세요.
 
-진행 로그는 `stderr`로 출력하므로 `run --json`의 `stdout`에는 보고서 JSON만 남습니다. 조사할 때마다 제안된 수와 진행 가능한 수를 표시하고, 한도가 적용되면 확인한 수도 표시합니다. 긴 단계에서는 30초마다 경과 시간을 알립니다. provider 응답 원문과 검증 출력은 로컬 실행 기록에 보존합니다. 결과와 실패 안내는 [진행 로그 참조 문서](https://github.com/soom-kang/refactor-me/blob/main/tool/README.ko.md#progress-logs)에 설명되어 있습니다.
+진행 로그는 `stderr`로 출력하므로 `run --json`의 `stdout`에는 보고서 JSON만 남습니다. 구조화된 provider 이벤트에서 읽기, 검색, 수정 등 도구 작업을 표시하고 확인 가능한 안전한 worktree 상대 경로를 보여 줍니다. 명령 작업은 일반 안내로 표시합니다. 민감 경로, worktree 밖 경로, 검색어, 명령 인자, 출력과 provider 설명은 로그에서 제외합니다. provider 완료 시에는 실제 소요 시간, 도구 이벤트 수와 종료 상태를 알립니다.
+
+조사할 때마다 제안된 수와 진행 가능한 수를 표시하고, 한도가 적용되면 확인한 수도 표시합니다. 긴 단계에서는 30초마다 경과 시간을 알립니다. provider 응답 원문과 검증 출력은 로컬 실행 기록에 보존합니다. 결과와 실패 안내는 [진행 로그 참조 문서](https://github.com/soom-kang/refactor-me/blob/main/tool/README.ko.md#progress-logs)에 설명되어 있습니다.
 
 ## 업데이트와 제거
 
