@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.5-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.6-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.6) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
 
@@ -14,7 +14,9 @@ Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.5`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.5), commit `8bfebe90b04e54cf1ef843915aad2901be0db41d`. See the passing [public installation check](https://github.com/soom-kang/refactor-me/actions/runs/37573464996) and [CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/37573194052). The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+The current public Beta is [`0.10.0-beta.6`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.6), commit `01b407ce81e9803878c003c181860e499718b0fa`.
+
+[CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/37625020035), [fresh installation](https://github.com/soom-kang/refactor-me/actions/runs/37625488585) and [Beta.5 → Beta.6 upgrade](https://github.com/soom-kang/refactor-me/actions/runs/37625494290) checks passed. The upgrade check preserved its configuration schema 2 and seeded report schema 3 fixtures, and rejected an unsupported report without changing it. Neither public installation check calls provider models. The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -25,18 +27,13 @@ refactor-me version --json
 
 Register the tap and trust only this formula once with Homebrew 6 or later. A new Homebrew installation needs this setup before the short command can resolve refactor-me. The formula fixes the source archive, SHA-256 and commit, and uses Go as a build dependency. No bottle, Apple signing or notarization is provided.
 
-Install Skills separately. This installer needs Node.js; refactor-me itself does not.
-
-```sh
-npx skills add soom-kang/sharpen-me \
-  --global --skill '*' --agent codex claude-code
-```
+Install the pinned sharpen-me [Skill reference](https://github.com/soom-kang/refactor-me/blob/main/tool/release/INSTALL.md#skill-reference) globally before doctor. Follow the Git-only installation steps; Node.js is not required. The procedure stops if a named Skill or source checkout already exists, preserving existing and custom installations for your review between runs.
 
 Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skills or write target-project settings.
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.5` and commit `8bfebe90b04e54cf1ef843915aad2901be0db41d`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.6` and commit `01b407ce81e9803878c003c181860e499718b0fa`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -47,6 +44,8 @@ refactor-me doctor --repo /path/to/target-repo \
 ```
 
 `init` preserves existing settings. Resolve blocking `FAIL` checks before continuing. This doctor command makes no model calls. Default doctor checks and `run` consume provider usage.
+
+The `skill-reference` diagnostic reports `PASS` for reference content match and nonblocking `WARN` for valid custom content. This compares the eight full Skill trees; it does not prove live Skill loading or model behavior. Live provider compatibility for the reference is `NOT_RUN`. See the [Skill reference contract](https://github.com/soom-kang/refactor-me/blob/main/tool/release/INSTALL.md#skill-reference) for catalog failures and installation conflicts.
 
 ## 3. Run and inspect
 
@@ -75,11 +74,17 @@ Reports separate provider-reported USD and estimated USD. When a supported model
 
 ## Progress logs
 
-Public Beta `0.10.0-beta.5` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+Public Beta `0.10.0-beta.6` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
 
 Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Structured provider events identify reads, searches, edits and other tool activity, with safe worktree-relative paths when available. Command activity stays generic; logs omit sensitive or outside-worktree paths, search patterns, command arguments, output and provider prose. Provider completion reports measured duration, tool-event count and exit status.
 
 Each audit reports proposed and eligible candidates, with the inspected count when capped. Long stages report elapsed time every 30 seconds. Provider transcripts and validation output remain in local run records. See the [progress reference](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#progress-logs) for result and failure messages.
+
+## Stopping and failed runs
+
+Ctrl-C or SIGTERM during `run` or `doctor` cancels managed provider and validation processes and stops retries and fallback. Accepted commits remain intact; an unfinished worktree stays available for inspection. SIGKILL cannot provide cleanup guarantees.
+
+If a controller preparation failure is recorded before a final report, `report` returns exit `2` and shows that failure. Earlier completed reports stay in their original run directories; a later completed run clears the failure marker. Pre-controller CLI/configuration/input errors and a failed marker write do not replace the previous result pointer. Inspect stderr and available diagnostics before retrying. See [interruption and failed attempts](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#interruption-and-failed-attempts).
 
 ## Update or remove
 
