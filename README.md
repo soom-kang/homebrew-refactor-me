@@ -4,9 +4,11 @@
 
 [![Release](https://img.shields.io/badge/Release-0.10.0--beta.6-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.6) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
-Install refactor-me on macOS Apple Silicon. The CLI uses Codex or Claude Code to refactor a chosen Git repository in an isolated worktree, then saves accepted commits on a local branch for review.
+This is the Homebrew tap for installing and updating the refactor-me CLI on macOS Apple Silicon.
 
-원하는 Git 저장소를 선택해 리팩토링하고, 검증을 통과한 변경을 로컬 branch에서 검토합니다.
+refactor-me uses Codex or Claude Code with sharpen-me Skills to manage risk assessment, preflight checks, edits, testing, validation and review in a separate session. It aims to make refactoring more reliable through explicit steps and recorded evidence. Changes happen in an isolated workspace, and commits that pass validation and review are saved on a local branch for you to inspect.
+
+The tap manages installation and updates with a formula that pins the published source archive and checksum. Required Skills are installed separately, while each target project keeps its own run configuration and records.
 
 [한국어](docs/README.ko.md) · [Usage guide](https://github.com/soom-kang/refactor-me/blob/main/tool/TUTORIAL.md) · [Source](https://github.com/soom-kang/refactor-me)
 
