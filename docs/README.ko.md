@@ -4,7 +4,11 @@
 
 [![Release](https://img.shields.io/badge/Release-0.10.0--beta.6-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.6) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
 
-macOS Apple Silicon에 refactor-me를 설치합니다. Codex 또는 Claude Code가 선택한 Git 저장소의 코드를 격리된 worktree에서 리팩토링하고, 검증을 통과한 커밋을 검토용 로컬 branch에 저장합니다.
+이 저장소는 macOS Apple Silicon에서 refactor-me CLI를 설치하고 업데이트하기 위한 Homebrew tap입니다.
+
+refactor-me는 Codex 또는 Claude Code와 sharpen-me 스킬로 위험 평가, 사전 점검, 수정, 테스트·검증, 별도 세션의 리뷰를 단계별로 관리합니다. 더 신뢰할 수 있는 리팩토링을 위해 절차와 판단 근거를 명시하고, 격리된 작업 공간에서 검증과 리뷰를 통과한 커밋을 사용자가 검토할 로컬 브랜치에 남깁니다.
+
+이 tap은 공개 릴리스의 소스와 체크섬을 고정해 설치·업데이트를 관리합니다. 필요한 스킬은 별도로 설치하며, 실행 설정과 기록은 각 대상 프로젝트에서 관리합니다.
 
 [English](../README.md) · [사용법](https://github.com/soom-kang/refactor-me/blob/main/tool/TUTORIAL.ko.md) · [소스](https://github.com/soom-kang/refactor-me)
 
