@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.7-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.7) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.8-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.8) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 This is the Homebrew tap for installing and updating the refactor-me CLI on macOS Apple Silicon.
 
@@ -16,9 +16,9 @@ The tap manages installation and updates with a formula that pins the published 
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.7`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.7), commit `daec4844affaca08d1e42dd394be12636fa84312`.
+The current public Beta is [`0.10.0-beta.8`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.8), commit `e1ccf3bde29f063ec0334a3257870b61f8f16170`.
 
-[CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/38194602945), [fresh installation](https://github.com/soom-kang/refactor-me/actions/runs/38195197188) and [Beta.6 → Beta.7 upgrade](https://github.com/soom-kang/refactor-me/actions/runs/38195202547) checks passed. The upgrade check preserved its configuration schema 2 and seeded report schema 3 fixtures, and rejected an unsupported report without changing it. Neither public installation check calls provider models. The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+[CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/38988653327), [fresh installation](https://github.com/soom-kang/refactor-me/actions/runs/38988891975) and [Beta.7 → Beta.8 upgrade](https://github.com/soom-kang/refactor-me/actions/runs/38988894754) checks passed. The upgrade check preserved its configuration schema 2 and seeded report schema 3 fixtures, and rejected an unsupported report without changing it. Neither public installation check calls provider models. The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -35,7 +35,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.7` and commit `daec4844affaca08d1e42dd394be12636fa84312`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.8` and commit `e1ccf3bde29f063ec0334a3257870b61f8f16170`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -66,17 +66,17 @@ Choose a model for every selected provider in the command or project configurati
 
 An explicit `--effort` applies to every phase for the primary provider in this command; `--fallback-effort` does the same for the fallback. Omitting these options keeps the configured and phase effort policy. Live doctor needs the same model selection as `run`; offline `doctor --no-live-probe` needs no model and does not prove live provider access or Skill loading. See [model and effort selection](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#model-and-effort-selection).
 
-Exit `0` can mean partial completion. Inspect the report, diff and local result branch before merging. The CLI does not merge, push or deploy results.
+Exit `0` can mean partial completion. Inspect the report, diff and local result branch before merging. The CLI does not merge, push or deploy results. Refactor and characterization commits use the active author and committer identity from Git configuration or explicit environment overrides; missing identity stops the commit. Branch-conditioned includes are evaluated in the detached run worktree.
 
 ## Review changes and costs
 
-Open `.refactor/runs/<id>/changes.md` in a Markdown editor to review the file checklist, additions/deletions and full text diff. Checkboxes record review progress; they do not include or exclude changes from the result branch. `changes.patch` stays unchanged, and binary changes show metadata. See [code comparison](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#code-comparison).
+Open `.refactor/runs/<id>/changes.md` in a Markdown editor to review the file checklist, additions/deletions and full text diff. Checkboxes record review progress; they do not include or exclude changes from the result branch. The report links this Markdown file without a duplicate inline diff when it is available. `changes.patch` stays unchanged as raw evidence, and binary changes show metadata. See [code comparison](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#code-comparison).
 
-Reports separate provider-reported USD and estimated USD. When a supported model does not report a price, bundled [Artificial Analysis](https://artificialanalysis.ai/) rates estimate standard API cost and record the sources, checked date and assumptions. Supported IDs are Codex `gpt-5.6-sol`, Codex `gpt-6.1-sol` and Claude `claude-sonnet-5-5`. Unknown models or missing/invalid usage remain unpriced. This estimate does not calculate subscription or credit charges. Read [usage and exit codes](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#usage-and-exit-codes) before treating a partial amount as a bill.
+Reports separate provider-reported USD and estimated USD. When a supported model does not report a price, bundled [Artificial Analysis](https://artificialanalysis.ai/) rates estimate standard API cost and record the sources, checked date and assumptions. Supported IDs are Codex `gpt-5.6-sol`, Codex `gpt-6.1-sol`, Codex `gpt-6-astra` and Claude `claude-sonnet-5-5`. Unknown models or missing/invalid usage remain unpriced. This estimate does not calculate subscription or credit charges. Read [usage and exit codes](https://github.com/soom-kang/refactor-me/blob/main/tool/README.md#usage-and-exit-codes) before treating a partial amount as a bill.
 
 ## Progress logs
 
-Public Beta `0.10.0-beta.7` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+Public Beta `0.10.0-beta.8` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
 
 Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Structured provider events identify reads, searches, edits and other tool activity, with safe worktree-relative paths when available. Command activity stays generic; logs omit sensitive or outside-worktree paths, search patterns, command arguments, output and provider prose. Provider completion reports measured duration, tool-event count and exit status.
 
