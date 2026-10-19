@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.9-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.9) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.10-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.10) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](../LICENSE)
 
 이 저장소는 macOS Apple Silicon에서 refactor-me CLI를 설치하고 업데이트하기 위한 Homebrew tap입니다.
 
@@ -16,9 +16,9 @@ refactor-me는 Codex 또는 Claude Code와 sharpen-me 스킬로 위험 평가, �
 
 Homebrew, Git, 인증을 마친 Codex 또는 Claude Code CLI와 대상 프로젝트의 빌드 및 테스트 도구를 준비하세요.
 
-현재 공개 Beta는 [`0.10.0-beta.9`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.9)이며 commit은 `b87bde4ca5d56dd2cdc4ee2e5a8453d814de40d0`입니다.
+현재 공개 Beta는 [`0.10.0-beta.10`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.10)이며 commit은 `89f47d831d63fad2d4c9246daf7f0513ffafc591`입니다.
 
-[CLI 소스 검증](https://github.com/soom-kang/refactor-me/actions/runs/39198152860), [신규 설치](https://github.com/soom-kang/refactor-me/actions/runs/39198427620), [Beta.8 → Beta.9 업그레이드](https://github.com/soom-kang/refactor-me/actions/runs/39198430208) 검증이 통과했습니다. 업그레이드 검증은 config schema 2와 미리 저장한 report schema 3 fixture를 보존하고, 지원하지 않는 보고서를 파일 변경 없이 거부했습니다. 두 공개 설치 검증은 provider 모델을 호출하지 않습니다. CLI Verify 배지는 CLI 저장소 `main`의 workflow 상태를 표시하며 tap CI나 실제 provider 실행을 입증하지 않습니다.
+[CLI 소스 검증](https://github.com/soom-kang/refactor-me/actions/runs/39201303065), [신규 설치](https://github.com/soom-kang/refactor-me/actions/runs/39201538230), [Beta.9 → Beta.10 업그레이드](https://github.com/soom-kang/refactor-me/actions/runs/39201554787) 검증이 통과했습니다. 업그레이드 검증은 config schema 2와 미리 저장한 report schema 3 fixture를 보존하고, 지원하지 않는 보고서를 파일 변경 없이 거부했습니다. 두 공개 설치 검증은 provider 모델을 호출하지 않습니다. CLI Verify 배지는 CLI 저장소 `main`의 workflow 상태를 표시하며 tap CI나 실제 provider 실행을 입증하지 않습니다.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -35,7 +35,7 @@ Homebrew 6 이상에서 tap 등록과 해당 formula의 trust 설정은 처음 �
 
 ## 2. 대상 확인
 
-`refactor-me version --json`에서 버전이 `0.10.0-beta.9`이고 commit이 `b87bde4ca5d56dd2cdc4ee2e5a8453d814de40d0`인지 확인하세요. 이전 버전이라면 아래 명령을 사용하기 전에 `brew upgrade refactor-me`로 업데이트합니다.
+`refactor-me version --json`에서 버전이 `0.10.0-beta.10`이고 commit이 `89f47d831d63fad2d4c9246daf7f0513ffafc591`인지 확인하세요. 이전 버전이라면 아래 명령을 사용하기 전에 `brew upgrade refactor-me`로 업데이트합니다.
 
 경로를 커밋이 하나 이상 있는 깨끗한 Git 저장소로 바꾸세요. 예시는 Codex만 사용합니다. Claude Code의 로컬 준비 상태를 검사하려면 `--provider claude --fallback none`으로 바꿉니다.
 
@@ -76,7 +76,7 @@ Markdown 편집기에서 `.refactor/runs/<id>/changes.md`를 열어 파일 체�
 
 ## 진행 로그
 
-공개 Beta `0.10.0-beta.9`는 경과 시간, 현재 단계, provider, 작업 항목과 확인된 결과를 표시합니다. 기존 `--lang en|ko`를 진행 로그에도 적용하며 기본값은 영어입니다. 한국어 안내에는 `--lang ko`를 추가하세요.
+공개 Beta `0.10.0-beta.10`은 경과 시간, 현재 단계, provider, 작업 항목과 확인된 결과를 표시합니다. 기존 `--lang en|ko`를 진행 로그에도 적용하며 기본값은 영어입니다. 한국어 안내에는 `--lang ko`를 추가하세요.
 
 진행 로그는 `stderr`로 출력하므로 `run --json`의 `stdout`에는 보고서 JSON만 남습니다. 구조화된 provider 이벤트에서 읽기, 검색, 수정 등 도구 작업을 표시하고 확인 가능한 안전한 worktree 상대 경로를 보여 줍니다. 명령 작업은 일반 안내로 표시합니다. 민감 경로, worktree 밖 경로, 검색어, 명령 인자, 출력과 provider 설명은 로그에서 제외합니다. provider 완료 시에는 실제 소요 시간, 도구 이벤트 수와 종료 상태를 알립니다.
 

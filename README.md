@@ -2,7 +2,7 @@
 
 # refactor-me Homebrew tap
 
-[![Release](https://img.shields.io/badge/Release-0.10.0--beta.9-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.9) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-0.10.0--beta.10-2f6f5e)](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.10) [![CLI Verify](https://img.shields.io/github/actions/workflow/status/soom-kang/refactor-me/verify.yml?branch=main&label=CLI%20Verify)](https://github.com/soom-kang/refactor-me/actions/workflows/verify.yml) [![MIT License](https://img.shields.io/badge/License-MIT-555555)](LICENSE)
 
 This is the Homebrew tap for installing and updating the refactor-me CLI on macOS Apple Silicon.
 
@@ -16,9 +16,9 @@ The tap manages installation and updates with a formula that pins the published 
 
 Prepare Homebrew, Git, an authenticated Codex or Claude Code CLI, and the target project's build/test tools.
 
-The current public Beta is [`0.10.0-beta.9`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.9), commit `b87bde4ca5d56dd2cdc4ee2e5a8453d814de40d0`.
+The current public Beta is [`0.10.0-beta.10`](https://github.com/soom-kang/refactor-me/releases/tag/v0.10.0-beta.10), commit `89f47d831d63fad2d4c9246daf7f0513ffafc591`.
 
-[CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/39198152860), [fresh installation](https://github.com/soom-kang/refactor-me/actions/runs/39198427620) and [Beta.8 → Beta.9 upgrade](https://github.com/soom-kang/refactor-me/actions/runs/39198430208) checks passed. The upgrade check preserved its configuration schema 2 and seeded report schema 3 fixtures, and rejected an unsupported report without changing it. Neither public installation check calls provider models. The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
+[CLI source verification](https://github.com/soom-kang/refactor-me/actions/runs/39201303065), [fresh installation](https://github.com/soom-kang/refactor-me/actions/runs/39201538230) and [Beta.9 → Beta.10 upgrade](https://github.com/soom-kang/refactor-me/actions/runs/39201554787) checks passed. The upgrade check preserved its configuration schema 2 and seeded report schema 3 fixtures, and rejected an unsupported report without changing it. Neither public installation check calls provider models. The CLI Verify badge follows the CLI repository's `main` workflow; it does not certify tap CI or live provider execution.
 
 ```sh
 brew tap soom-kang/refactor-me
@@ -35,7 +35,7 @@ Required Skills resolve from `~/.agents/skills`. Homebrew does not install Skill
 
 ## 2. Check your target
 
-Confirm `refactor-me version --json` reports `0.10.0-beta.9` and commit `b87bde4ca5d56dd2cdc4ee2e5a8453d814de40d0`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
+Confirm `refactor-me version --json` reports `0.10.0-beta.10` and commit `89f47d831d63fad2d4c9246daf7f0513ffafc591`. Upgrade an older installation with `brew upgrade refactor-me` before using the commands below.
 
 Replace the path with a clean Git repository that has at least one commit. These examples use Codex only. For a local Claude Code check, use `--provider claude --fallback none` instead.
 
@@ -76,7 +76,7 @@ Reports separate provider-reported USD and estimated USD. When a supported model
 
 ## Progress logs
 
-Public Beta `0.10.0-beta.9` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
+Public Beta `0.10.0-beta.10` shows elapsed time, the current stage, provider, candidate and confirmed result. The existing `--lang en|ko` also selects progress language, defaulting to English; add `--lang ko` for Korean.
 
 Progress uses `stderr`, leaving `run --json` report JSON alone on `stdout`. Structured provider events identify reads, searches, edits and other tool activity, with safe worktree-relative paths when available. Command activity stays generic; logs omit sensitive or outside-worktree paths, search patterns, command arguments, output and provider prose. Provider completion reports measured duration, tool-event count and exit status.
 
